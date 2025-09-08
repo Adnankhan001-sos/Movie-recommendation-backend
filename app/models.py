@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import List, Optional
 
 class Movie(BaseModel):
@@ -8,13 +8,12 @@ class Movie(BaseModel):
     genre: str
     description: str
     rating: float
-    runtime: int
+    runtime: Optional[int] = None
     poster_url: Optional[str] = None
+    tmdb_id: int
     
     class Config:
         from_attributes = True
-        # Allow arbitrary types and extra fields
-        extra = "ignore"
 
 class MovieSummary(BaseModel):
     id: int
@@ -23,20 +22,14 @@ class MovieSummary(BaseModel):
     genre: str
     rating: float
     poster_url: Optional[str] = None
+    tmdb_id: int
     
     class Config:
         from_attributes = True
-        extra = "ignore"
 
 class GenreResponse(BaseModel):
     genres: List[str]
-    
-    class Config:
-        extra = "ignore"
 
 class RecommendationResponse(BaseModel):
     movies: List[MovieSummary]
     count: int
-    
-    class Config:
-        extra = "ignore"
